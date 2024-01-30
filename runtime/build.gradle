@@ -2,6 +2,7 @@
      id 'application'
      id 'java-library'
      id 'idea'
+     id 'com.github.johnrengelman.shadow' version '5.2.0'
  }
 
 if (gradle.ext.docgenExists) {
@@ -23,6 +24,10 @@ sourceSets {
 
  repositories {
      mavenCentral()
+ }
+
+ shadowJar {
+    mainClassName = 'com.google.cloud.verticals.foundations.dataharmonization.Main'
  }
 
  dependencies {
