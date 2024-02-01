@@ -58,6 +58,7 @@ public final class Main {
     options.addOption(
         list(new Option("i", "input_file_spec", true, "Absolute paths to input JSON files.")));
     options.addOption("o", "output_dir", true, "Absolute path to directory to output JSON files.");
+    options.addOption("j", "input_json_string", true, "Input JSON string for WSTL transfomation.");
 
     Option mapping =
         new Option(
@@ -112,6 +113,16 @@ public final class Main {
       Path mappingPath = FileSystems.getDefault().getPath(cmd.getOptionValue("m"));
       ImportPath mappingImportPath =
           ImportPath.of(FileLoader.NAME, mappingPath, mappingPath.getParent());
+
+      if (cmd.hasOption("j")) {
+        String inputJson = cmd.getOptionValue("j");
+        try (Engine engine = new Engine.Builder(ExternalConfigExtractor.of(mappingImportPath))
+          .initialize()
+          .build()) {
+          String output = engine.transform(inputJson);
+          System.out.write(output.getBytes(UTF_8));
+        };
+      }
 
       for (Path inputPath : inputData.keySet()) {
         Data input = inputData.get(inputPath);
