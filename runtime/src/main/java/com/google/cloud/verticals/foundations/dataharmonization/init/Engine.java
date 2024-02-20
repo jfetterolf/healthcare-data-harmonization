@@ -14,7 +14,18 @@
 
 package com.google.cloud.verticals.foundations.dataharmonization.init;
 
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.*;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.URI;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
 
 import com.google.cloud.verticals.foundations.dataharmonization.builtins.Builtins;
 import com.google.cloud.verticals.foundations.dataharmonization.builtins.BuiltinsConfig;
@@ -53,16 +64,6 @@ import com.google.cloud.verticals.foundations.dataharmonization.target.Target;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.URI;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
 
 /**
  * The main entry point of Whistle ELP (go/dh-whistle-elp). Each instance of {@code Engine} class

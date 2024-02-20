@@ -16,8 +16,27 @@
 
 package com.google.cloud.verticals.foundations.dataharmonization;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Arrays.stream;
+import static java.nio.charset.StandardCharsets.*;
+import static java.util.Arrays.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 import com.google.cloud.verticals.foundations.dataharmonization.data.Data;
 import com.google.cloud.verticals.foundations.dataharmonization.data.NullData;
@@ -30,23 +49,6 @@ import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 /** Entry point for simple JSON to JSON transformation. */
 public final class Main {
@@ -106,6 +108,8 @@ public final class Main {
         inputData =
             stream(filePaths)
                 .collect(Collectors.toMap(FileSystems.getDefault()::getPath, Main::readJson));
+      } else if (cmd.hasOption("j")) {
+        // do nothing and continue
       } else {
         inputData.put(outputDir.resolve("default.json"), NullData.instance);
       }
